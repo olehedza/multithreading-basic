@@ -1,11 +1,25 @@
 package mate.academy.threads;
 
 public class RaceConditionPlayground {
-    public static int sharedCounter = -1;
+    private Long sharedCounter;
+
+    public RaceConditionPlayground(Long sharedCounter) {
+        this.sharedCounter = sharedCounter;
+    }
+
+    public Long getSharedCounter() {
+        return sharedCounter;
+    }
+
+    public void setSharedCounter(Long sharedCounter) {
+        this.sharedCounter = sharedCounter;
+    }
 
     public static void main(String[] args) {
-        RunnableModel thread1 = new RunnableModel("Thread-1");
-        ThreadModel thread2 = new ThreadModel("Thread-2");
+        RaceConditionPlayground playground = new RaceConditionPlayground(-1L);
+
+        Thread thread1 = new Thread(new RunnableModel("Thread-1", playground));
+        Thread thread2 = new ThreadModel("Thread-2", playground);
         thread1.start();
         thread2.start();
     }
